@@ -1,5 +1,5 @@
-import 'dart:ffi';
+import 'dart:typed_data';
 
 class Stack {
-  static Array <Uint16> stack = const Array(0xF);
+  static Uint16List stack = Uint16List(0xF);
 }
