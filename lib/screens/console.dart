@@ -1,3 +1,4 @@
+import 'package:chip_8_flutter/core/cpu.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
 import 'package:chip_8_flutter/widgets/screen.dart';
@@ -19,7 +20,7 @@ class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin{
   void initState() {
     super.initState();
 
-    _ticker = createTicker((elapsed) {});
+    _ticker = createTicker(CPU.fetch());
   }
 
   @override

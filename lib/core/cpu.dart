@@ -2,16 +2,24 @@
 
 import 'dart:math';
 
+import 'package:chip_8_flutter/core/file_handler.dart';
 import 'package:chip_8_flutter/data/character_map.dart';
 import 'package:chip_8_flutter/models/keypad.dart';
 import 'package:chip_8_flutter/models/memory.dart';
 import 'package:chip_8_flutter/models/registers.dart';
 import 'package:chip_8_flutter/models/screen_buffer.dart';
+import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/models/stack.dart';
 import 'package:flutter/foundation.dart';
 
 class CPU {
   static final randGen = Random(DateTime.now().millisecondsSinceEpoch);
+
+  static void init() async {
+    FileHandler.load('IBM');
+    Registers.PC = Memory.memStart;
+    await Speaker.play();
+  }
 
   static int getAddress(int nibbleOne, int nibbleTwo, int nibbleThree) {
     int addr = 0;
@@ -205,6 +213,28 @@ class CPU {
     // Set Vx = Random Byte & kk
     else if (nibbleOne == 0xB) {
       Registers.registers[nibbleTwo] = randGen.nextInt(256) & opTwo;
+    }
+
+    // Dxyn - DISPLAY
+    // Display n byte sprite starting at addr VI at coords(Vx, Vy) 
+    else if (nibbleOne == 0xD) {
+      int currentByte = 0, oldState = 0, newState = 0;
+      Registers.registers[0xF] = 0;
+
+      for (int y = 0; y < nibbleFour; y++) {
+        currentByte = Memory.memory[Registers.I + y];
+
+        for (int x = 0; x < 8; x++) {
+          oldState = ScreenBuffer.buffer[(nibbleThree + y) % 32][(nibbleTwo + x) % 64];
+          newState = oldState ^ ((currentByte << (8 - x)) & 0x1);
+
+          if (oldState == 1 && newState == 0 && Registers.registers[0xF] == 0) {
+            Registers.registers[0xF] = 1;
+          }
+
+          ScreenBuffer.buffer[(nibbleThree + y) % 32][(nibbleTwo + x) % 64] = newState;
+        }
+      }
     }
 
     // Ex9E - SKP Vx

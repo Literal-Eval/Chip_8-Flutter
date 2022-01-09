@@ -1,7 +1,6 @@
 import 'package:chip_8_flutter/data/constants.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/screens/console.dart';
-import 'package:chip_8_flutter/core/file_handler.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -52,9 +51,7 @@ class _ChipState extends State<Chip> {
       body: Center(
         child: TextButton(
           child: const Text('Load'),
-          onPressed: () async {
-            FileHandler.load('IBM');
-            await Speaker.play();
+          onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const Console();
             }));
