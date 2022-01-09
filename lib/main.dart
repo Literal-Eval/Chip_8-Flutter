@@ -2,6 +2,7 @@ import 'package:chip_8_flutter/data/constants.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/core/file_handler.dart';
+import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -22,8 +23,20 @@ void main() async {
   await Speaker.load();
 }
 
-class Chip extends StatelessWidget {
+class Chip extends StatefulWidget {
   const Chip({Key? key}) : super(key: key);
+
+  @override
+  State<Chip> createState() => _ChipState();
+}
+
+class _ChipState extends State<Chip> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    SizeConfig.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {

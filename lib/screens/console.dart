@@ -1,4 +1,4 @@
-import 'package:chip_8_flutter/data/constants.dart';
+import 'package:chip_8_flutter/widgets/screen.dart';
 import 'package:flutter/material.dart';
 
 class Console extends StatefulWidget {
@@ -15,6 +15,16 @@ class _ConsoleState extends State<Console> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Chip_8'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: const [
+          Screen(),
+          SizedBox(
+            width: double.infinity,
+          )
+        ],
       ),
     );
   }
