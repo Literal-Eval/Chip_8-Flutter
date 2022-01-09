@@ -1,5 +1,5 @@
 import 'package:chip_8_flutter/models/memory.dart';
-import 'package:chip_8_flutter/utils/cpu.dart';
+import 'package:chip_8_flutter/core/cpu.dart';
 import 'package:flutter/services.dart';
 
 class FileHandler {

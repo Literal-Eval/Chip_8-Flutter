@@ -1,17 +1,21 @@
 import 'package:just_audio/just_audio.dart';
 
 class Speaker {
-  static final _audioPlayer = AudioPlayer();
+  static final _beepPlayer = AudioPlayer();
+  static final _musicPlayer = AudioPlayer();
 
   static Future<void> load() async {
-    await _audioPlayer.setAsset(
+    await _beepPlayer.setAsset(
       'assets/sound/pickupCoin(8).wav',
     );
-    await _audioPlayer.load();
+
+    await _musicPlayer.setAsset(
+      'assets/sound/beep.wav',
+    );
   }
 
   static Future<void> play() async {
-    _audioPlayer.seek(const Duration(milliseconds: 0));
-    await _audioPlayer.play();
+    _beepPlayer.seek(const Duration(milliseconds: 0));
+    await _beepPlayer.play();
   }
 }
