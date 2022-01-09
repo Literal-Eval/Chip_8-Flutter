@@ -47,7 +47,7 @@ class ScreenPainter extends CustomPainter {
 
     for (int y = 0; y < 32; y++) {
       for (int x = 0; x < 64; x++) {
-        if (ScreenBuffer.buffer[y][x] == 0) {
+        if (ScreenBuffer.buffer[y][x] == 1) {
           canvas.drawRect(
             Rect.fromLTWH(
                 x * blockWidth, y * blockHeight, blockWidth, blockHeight),

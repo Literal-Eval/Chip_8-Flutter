@@ -10,8 +10,16 @@ void main() async {
     MaterialApp(
       home: const Chip(),
       theme: ThemeData.dark().copyWith(
-        primaryColor: kPrimaryColor,
+        primaryColor: kSecondaryColor,
         scaffoldBackgroundColor: kPrimaryColor,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: kPrimaryColor,
+          titleTextStyle: TextStyle(
+            color: kSecondaryColor,
+          ),
+          iconTheme: IconThemeData(color: kSecondaryColor),
+        ),
         textTheme: const TextTheme(
           bodyText2: TextStyle(
             color: kSecondaryColor,
