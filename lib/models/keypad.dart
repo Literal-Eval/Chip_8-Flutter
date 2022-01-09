@@ -17,6 +17,10 @@ class Keypad {
     return null;
   }
 
+  static bool checkPressed(int key) {
+    return keys[key];
+  }
+
   static void clearPressed() {
     // keys.setAll(0, List.filled(0xF, false));
 

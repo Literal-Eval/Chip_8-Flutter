@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:chip_8_flutter/data/character_map.dart';
+import 'package:chip_8_flutter/models/keypad.dart';
 import 'package:chip_8_flutter/models/memory.dart';
 import 'package:chip_8_flutter/models/registers.dart';
 import 'package:chip_8_flutter/models/screen_buffer.dart';
@@ -10,7 +11,6 @@ import 'package:chip_8_flutter/models/stack.dart';
 import 'package:flutter/foundation.dart';
 
 class CPU {
-
   static final randGen = Random(DateTime.now().millisecondsSinceEpoch);
 
   static int getAddress(int nibbleOne, int nibbleTwo, int nibbleThree) {
@@ -24,8 +24,18 @@ class CPU {
     return addr;
   }
 
-  static decode(int opOne, int opTwo) {
-    
+  static fetch() {
+    if (decode(
+      Memory.memory[Registers.PC],
+      Memory.memory[Registers.PC + 1],
+    )) {
+      Registers.PC += 2;
+    }
+  }
+
+  // Decode cycle
+  // Returns false in case of halt
+  static bool decode(int opOne, int opTwo) {
     // Get individual nibbles
     int nibbleOne = opOne << 4;
     int nibbleTwo = opOne & 0xFF;
@@ -38,7 +48,12 @@ class CPU {
       ScreenBuffer.clear();
     }
 
-    // TODO: implement RET
+    // 00EE - RET
+    // Return from a subroutine
+    else if (opOne == 0x00 && opTwo == 0xEE) {
+      Registers.PC = Stack.stack[Registers.SP];
+      Registers.SP--;
+    }
 
     // 1nnn - JP addr
     // Jump to address 1nnn
@@ -91,7 +106,7 @@ class CPU {
     }
 
     // 8xyn - ADD Vx, byte
-    // 
+    //
     else if (nibbleOne == 0x8) {
       switch (nibbleFour) {
 
@@ -134,7 +149,7 @@ class CPU {
         case 0x5:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vx + Vy) << 4;
+          Registers.registers[0xF] = (Vx - Vy) < 0 ? 0 : 1;
           Registers.registers[nibbleTwo] -= Registers.registers[nibbleThree];
           break;
 
@@ -182,7 +197,8 @@ class CPU {
     // Bnnn - JP V0, addr
     // Jump to addr V0 + nnn
     else if (nibbleOne == 0xB) {
-      Registers.PC = Registers.registers[0x0] + getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      Registers.PC = Registers.registers[0x0] +
+          getAddress(nibbleTwo, nibbleThree, nibbleFour);
     }
 
     // Cxkk - RND Vx, byte
@@ -191,10 +207,24 @@ class CPU {
       Registers.registers[nibbleTwo] = randGen.nextInt(256) & opTwo;
     }
 
-    // TODO: Implement Dxyn, EX9E, ExA1
+    // Ex9E - SKP Vx
+    // Skip next instr if key in Vx is pressed
+    else if (nibbleOne == 0xE && opTwo == 0x9E) {
+      if (Keypad.checkPressed(nibbleTwo)) {
+        Registers.PC += 2;
+      }
+    }
+
+    // ExA1 - SKNP Vx
+    // Skip next instr if key in Vx is not pressed
+    else if (nibbleOne == 0xE && opTwo == 0xA1) {
+      if (!Keypad.checkPressed(nibbleTwo)) {
+        Registers.PC += 2;
+      }
+    }
 
     // Fxkk
-    // 
+    //
     else if (nibbleOne == 0xF) {
       switch (opTwo) {
 
@@ -208,9 +238,14 @@ class CPU {
         // Fx0A - LD Vx, k
         // Wait for key press; Store value of key in Vx
         case 0x0A:
-          Registers.registers[nibbleTwo] = Registers.DT;
+          final int? key = Keypad.getPressed();
+          if (key != null) {
+            Registers.registers[nibbleTwo] = key;
+          } else {
+            return false;
+          }
           break;
-        
+
         // Fx15 - LD DT, Vx
         // Set DT = Vx
         case 0x15:
@@ -232,14 +267,15 @@ class CPU {
         // Fx29 - LD F, Vx
         // Set I = addr of spr for digit in Vx
         case 0x29:
-          Registers.I = Memory.memory[CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo]];
+          Registers.I = Memory.memory[
+              CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo]];
           break;
 
         // Fx33 - LD B, Vx
         // Store BCD of Vx in addr I, I+1, I+2
         case 0x33:
           final int Vx = Registers.registers[nibbleTwo];
-          Memory.memory[Registers.I]     = Vx ~/ 100;
+          Memory.memory[Registers.I] = Vx ~/ 100;
           Memory.memory[Registers.I + 1] = (Vx % 100) ~/ 10;
           Memory.memory[Registers.I + 2] = Vx % 10;
           break;
@@ -261,9 +297,12 @@ class CPU {
           break;
 
         default:
-          debugPrint('Ha ha; I lied, there is no default section. Now take off your clothes');
+          debugPrint(
+              'Ha ha; I lied, there is no default section. Now take off your clothes');
           break;
       }
     }
+
+    return true;
   }
 }

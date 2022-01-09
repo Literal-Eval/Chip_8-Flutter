@@ -2,6 +2,7 @@ import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
 import 'package:chip_8_flutter/widgets/screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class Console extends StatefulWidget {
   const Console({Key? key}) : super(key: key);
@@ -10,7 +11,23 @@ class Console extends StatefulWidget {
   _ConsoleState createState() => _ConsoleState();
 }
 
-class _ConsoleState extends State<Console> {
+class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin{
+
+  late final Ticker _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _ticker = createTicker((elapsed) {});
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
