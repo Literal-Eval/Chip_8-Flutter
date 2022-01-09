@@ -1,3 +1,4 @@
+import 'package:chip_8_flutter/widgets/keyboard.dart';
 import 'package:chip_8_flutter/widgets/screen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,8 @@ class _ConsoleState extends State<Console> {
           Screen(),
           SizedBox(
             width: double.infinity,
-          )
+          ),
+          Keyboard(),
         ],
       ),
     );
