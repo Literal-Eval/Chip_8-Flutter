@@ -14,10 +14,16 @@ class Speaker {
   );
 
   Future<void> load() async {
-    _id = await rootBundle.load("assets/sound/beep.mid").then((ByteData soundData) {
+    _id = await rootBundle
+        .load("assets/sound/beep.mid")
+        .then((ByteData soundData) {
       return _soundPool.load(soundData);
     });
 
+    await play();
+  }
+
+  Future<void> play() async {
     await _soundPool.play(_id);
   }
 }
