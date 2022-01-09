@@ -1,23 +1,17 @@
-import 'package:flutter/services.dart';
-import 'package:soundpool/soundpool.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Speaker {
-  static late int _id = -1;
+  static final _audioPlayer = AudioPlayer();
 
-  static final Soundpool _soundPool = Soundpool.fromOptions(
-    options: const SoundpoolOptions(streamType: StreamType.music),
-  );
-
-  static Future<void> load() async {    
-    _id = await rootBundle
-        .load("assets/sound/beep_new.mid")
-        .then((ByteData soundData) {
-      return _soundPool.load(soundData);
-    });
+  static Future<void> load() async {
+    await _audioPlayer.setAsset(
+      'assets/sound/pickupCoin(8).wav',
+    );
+    await _audioPlayer.load();
   }
 
   static Future<void> play() async {
-    if (_id == -1) return;
-    await _soundPool.play(_id);
+    _audioPlayer.seek(const Duration(milliseconds: 0));
+    await _audioPlayer.play();
   }
 }
