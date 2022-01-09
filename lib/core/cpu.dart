@@ -7,7 +7,7 @@ import 'package:chip_8_flutter/data/character_map.dart';
 import 'package:chip_8_flutter/models/keypad.dart';
 import 'package:chip_8_flutter/models/memory.dart';
 import 'package:chip_8_flutter/models/registers.dart';
-import 'package:chip_8_flutter/models/screen_buffer.dart';
+import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/models/stack.dart';
 import 'package:flutter/foundation.dart';
@@ -66,6 +66,7 @@ class CPU {
     else if (opOne == 0x00 && opTwo == 0xEE) {
       Registers.PC = Stack.stack[Registers.SP - 1];
       Registers.SP--;
+      // return false;
     }
 
     // 1nnn - JP addr
@@ -154,22 +155,22 @@ class CPU {
         case 0x4:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vx + Vy) >> 8;
+          Registers.registers[0xF] = (Vx + Vy) > 0xFFFF ? 1 : 0;
           Registers.registers[nibbleTwo] += Registers.registers[nibbleThree];
+          // Registers.registers[nibbleTwo] &= 0xFFFF;
           break;
 
-        // TODO: Review this
         // 8xy5 - SUB Vx, Vy
         // Set Vx = Vx - Vy; VF = NOT borrow
         case 0x5:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vx - Vy) < 0 ? 0 : 1;
+          Registers.registers[0xF] = (Vx > Vy) ? 1 : 0;
           Registers.registers[nibbleTwo] -= Registers.registers[nibbleThree];
           break;
 
         // 8xy6 - SHR Vx {, Vy}
-        // Set Vx = Vx SHR 1 => VF = LSB(Vx); Vx << 1
+        // Set Vx = Vx SHR 1 => VF = LSB(Vx); Vx >> 1
         case 0x6:
           Registers.registers[0xF] = Registers.registers[nibbleTwo] & 0x1;
           Registers.registers[nibbleTwo] >>= 1;
@@ -180,12 +181,12 @@ class CPU {
         case 0x7:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vy - Vx) < 0 ? 0 : 1;
+          Registers.registers[0xF] = (Vy > Vx) ? 1 : 0;
           Registers.registers[nibbleTwo] = Vy - Vx;
           break;
 
         // 8xyE - SHL Vx {, Vy}
-        // Set Vx = Vx SHL 1 => VF = MSB(Vx); Vx >> 2
+        // Set Vx = Vx SHL 1 => VF = MSB(Vx); Vx << 1
         case 0xE:
           Registers.registers[0xF] = Registers.registers[nibbleTwo] & 0x80;
           Registers.registers[nibbleTwo] <<= 1;
@@ -223,24 +224,27 @@ class CPU {
       Registers.registers[nibbleTwo] = randGen.nextInt(256) & opTwo;
     }
 
-    // Dxyn - DISPLAY
-    // Display n byte sprite starting at addr VI at coords(Vx, Vy) 
+    // Dxyn - DRW Vx, Vy, nibble
+    // Display n byte sprite starting at addr VI at coords(Vx, Vy)
     else if (nibbleOne == 0xD) {
       int currentByte = 0, oldState = 0, newState = 0;
       Registers.registers[0xF] = 0;
+
+      final int x_cor = Registers.registers[nibbleTwo];
+      final int y_cor = Registers.registers[nibbleThree];
 
       for (int y = 0; y < nibbleFour; y++) {
         currentByte = Memory.memory[Registers.I + y];
 
         for (int x = 0; x < 8; x++) {
-          oldState = ScreenBuffer.buffer[(nibbleThree + y) % 32][(nibbleTwo + x) % 64];
-          newState = oldState ^ ((currentByte >> (8 - x)) & 0x1);
+          oldState = ScreenBuffer.buffer[(y_cor + y) % 32][(x_cor + x) % 64];
+          newState = oldState ^ ((currentByte >> (7 - x)) & 0x1);
 
           if (oldState == 1 && newState == 0 && Registers.registers[0xF] == 0) {
             Registers.registers[0xF] = 1;
           }
 
-          ScreenBuffer.buffer[(nibbleThree + y) % 32][(nibbleTwo + x) % 64] = newState;
+          ScreenBuffer.buffer[(y_cor + y) % 32][(x_cor + x) % 64] = newState;
         }
       }
     }

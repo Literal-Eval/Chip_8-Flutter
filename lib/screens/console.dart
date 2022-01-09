@@ -1,9 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:chip_8_flutter/core/cpu.dart';
+import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
+// import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
 import 'package:chip_8_flutter/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final screenBufferProvider = StateProvider<List <Uint8List>>((ref) {
+  return ScreenBuffer.buffer;
+});
 
 class Console extends StatefulWidget {
   const Console({Key? key}) : super(key: key);

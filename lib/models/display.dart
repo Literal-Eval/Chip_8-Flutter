@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
-
-class ScreenBuffer extends ChangeNotifier{
+class ScreenBuffer {
   static List <Uint8List> buffer = List.filled(32, Uint8List(64));
 
   static clear() {
@@ -11,9 +9,5 @@ class ScreenBuffer extends ChangeNotifier{
         buffer[y][x] = 0;
       }
     }
-  }
-
-  static update() {
-    // notifyListeners();
   }
 }

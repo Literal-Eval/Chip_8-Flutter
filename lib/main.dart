@@ -3,25 +3,28 @@ import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   runApp(
-    MaterialApp(
-      home: const Chip(),
-      theme: ThemeData.dark().copyWith(
-        primaryColor: kSecondaryColor,
-        scaffoldBackgroundColor: kPrimaryColor,
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          backgroundColor: kPrimaryColor,
-          titleTextStyle: TextStyle(
-            color: kSecondaryColor,
+    ProviderScope(
+      child: MaterialApp(
+        home: const Chip(),
+        theme: ThemeData.dark().copyWith(
+          primaryColor: kSecondaryColor,
+          scaffoldBackgroundColor: kPrimaryColor,
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            backgroundColor: kPrimaryColor,
+            titleTextStyle: TextStyle(
+              color: kSecondaryColor,
+            ),
+            iconTheme: IconThemeData(color: kSecondaryColor),
           ),
-          iconTheme: IconThemeData(color: kSecondaryColor),
-        ),
-        textTheme: const TextTheme(
-          bodyText2: TextStyle(
-            color: kSecondaryColor,
+          textTheme: const TextTheme(
+            bodyText2: TextStyle(
+              color: kSecondaryColor,
+            ),
           ),
         ),
       ),
