@@ -20,7 +20,9 @@ class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin{
   void initState() {
     super.initState();
 
-    _ticker = createTicker(CPU.fetch());
+    CPU.init();
+    _ticker = createTicker(CPU.fetch);
+    _ticker.start();
   }
 
   @override

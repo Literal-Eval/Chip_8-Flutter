@@ -17,6 +17,7 @@ class CPU {
 
   static void init() async {
     FileHandler.load('IBM');
+    CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
   }
@@ -24,20 +25,21 @@ class CPU {
   static int getAddress(int nibbleOne, int nibbleTwo, int nibbleThree) {
     int addr = 0;
     addr |= nibbleOne;
-    addr >>= 8;
+    addr <<= 4;
     addr |= nibbleTwo;
-    addr >>= 4;
+    addr <<= 4;
     addr |= nibbleThree;
 
     return addr;
   }
 
-  static fetch() {
+  static fetch(Duration _) {
     if (decode(
       Memory.memory[Registers.PC],
       Memory.memory[Registers.PC + 1],
     )) {
       Registers.PC += 2;
+      // debugPrint('fetch ${Registers.PC}');
     }
   }
 
@@ -45,10 +47,13 @@ class CPU {
   // Returns false in case of halt
   static bool decode(int opOne, int opTwo) {
     // Get individual nibbles
-    int nibbleOne = opOne << 4;
-    int nibbleTwo = opOne & 0xFF;
-    int nibbleThree = opTwo << 4;
-    int nibbleFour = opTwo & 0xFF;
+    int nibbleOne = opOne >> 4;
+    int nibbleTwo = opOne & 0xF;
+    int nibbleThree = opTwo >> 4;
+    int nibbleFour = opTwo & 0xF;
+
+    // debugPrint('decode $opOne $opTwo');
+    // debugPrint('decode $nibbleOne $nibbleTwo $nibbleThree $nibbleFour');
 
     // 00E0 - CLS
     // Clear the screen
@@ -59,7 +64,7 @@ class CPU {
     // 00EE - RET
     // Return from a subroutine
     else if (opOne == 0x00 && opTwo == 0xEE) {
-      Registers.PC = Stack.stack[Registers.SP];
+      Registers.PC = Stack.stack[Registers.SP - 1];
       Registers.SP--;
     }
 
@@ -67,6 +72,7 @@ class CPU {
     // Jump to address 1nnn
     else if (nibbleOne == 0x1) {
       Registers.PC = getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      return false;
     }
 
     // 2nnn - CALL addr
@@ -75,6 +81,7 @@ class CPU {
       Stack.stack[Registers.SP] = Registers.PC;
       Registers.SP++;
       Registers.PC = getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      return false;
     }
 
     // 3xkk - SE Vx, byte
@@ -147,7 +154,7 @@ class CPU {
         case 0x4:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vx + Vy) << 4;
+          Registers.registers[0xF] = (Vx + Vy) >> 8;
           Registers.registers[nibbleTwo] += Registers.registers[nibbleThree];
           break;
 
@@ -165,7 +172,7 @@ class CPU {
         // Set Vx = Vx SHR 1 => VF = LSB(Vx); Vx << 1
         case 0x6:
           Registers.registers[0xF] = Registers.registers[nibbleTwo] & 0x1;
-          Registers.registers[nibbleTwo] <<= 1;
+          Registers.registers[nibbleTwo] >>= 1;
           break;
 
         // 8xy7 - SUBN Vx, Vy
@@ -181,7 +188,7 @@ class CPU {
         // Set Vx = Vx SHL 1 => VF = MSB(Vx); Vx >> 2
         case 0xE:
           Registers.registers[0xF] = Registers.registers[nibbleTwo] & 0x80;
-          Registers.registers[nibbleTwo] >>= 2;
+          Registers.registers[nibbleTwo] <<= 1;
           break;
         default:
           break;
@@ -207,11 +214,12 @@ class CPU {
     else if (nibbleOne == 0xB) {
       Registers.PC = Registers.registers[0x0] +
           getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      return false;
     }
 
     // Cxkk - RND Vx, byte
     // Set Vx = Random Byte & kk
-    else if (nibbleOne == 0xB) {
+    else if (nibbleOne == 0xC) {
       Registers.registers[nibbleTwo] = randGen.nextInt(256) & opTwo;
     }
 
@@ -226,7 +234,7 @@ class CPU {
 
         for (int x = 0; x < 8; x++) {
           oldState = ScreenBuffer.buffer[(nibbleThree + y) % 32][(nibbleTwo + x) % 64];
-          newState = oldState ^ ((currentByte << (8 - x)) & 0x1);
+          newState = oldState ^ ((currentByte >> (8 - x)) & 0x1);
 
           if (oldState == 1 && newState == 0 && Registers.registers[0xF] == 0) {
             Registers.registers[0xF] = 1;
@@ -291,7 +299,7 @@ class CPU {
         // Fx1E - ADD I, Vx
         // Set I = I + Vx
         case 0x1E:
-          Registers.I = Registers.registers[nibbleTwo] + Registers.I;
+          Registers.I += Registers.registers[nibbleTwo];
           break;
 
         // Fx29 - LD F, Vx

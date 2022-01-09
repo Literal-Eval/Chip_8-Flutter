@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:chip_8_flutter/models/memory.dart';
+import 'dart:typed_data';
 
 class CharacterMap {
-  static Array<Uint8> sprites = sprites = [
+  static Uint8List sprites = Uint8List.fromList([
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
     0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -20,7 +19,7 @@ class CharacterMap {
     0xE0, 0x90, 0x90, 0x90, 0xE0, // D
     0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
     0xF0, 0x80, 0xF0, 0x80, 0x80, // F
-  ] as Array<Uint8>;
+  ]);
 
   static void init() {
     for (int i = 0; i < 80; i++) {

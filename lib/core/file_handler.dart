@@ -1,5 +1,4 @@
 import 'package:chip_8_flutter/models/memory.dart';
-import 'package:chip_8_flutter/core/cpu.dart';
 import 'package:flutter/services.dart';
 
 class FileHandler {
@@ -13,7 +12,5 @@ class FileHandler {
     for (int i = 0; i < byteList.length; i++) {
       Memory.memory[Memory.memStart + i] = byteList[i];
     }
-
-    CPU.decode(Memory.memory[Memory.memStart], Memory.memory[Memory.memStart + 1]);
   }
 }
