@@ -1,8 +1,10 @@
+import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/utils/file_handler.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   runApp(const MaterialApp(home: Chip()));
+  await Speaker.load();
 }
 
 class Chip extends StatelessWidget {
@@ -16,6 +18,7 @@ class Chip extends StatelessWidget {
           child: const Text('Load'),
           onPressed: () {
             FileHandler.load('IBM');
+            Speaker.play();
           },
         ),
       ),

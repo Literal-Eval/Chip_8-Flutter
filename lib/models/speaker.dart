@@ -2,28 +2,22 @@ import 'package:flutter/services.dart';
 import 'package:soundpool/soundpool.dart';
 
 class Speaker {
-  Speaker() {
-    SystemSound.play(SystemSoundType.click);
-    load();
-  }
+  static late int _id = -1;
 
-  late final int _id;
-
-  final Soundpool _soundPool = Soundpool.fromOptions(
-    options: const SoundpoolOptions(streamType: StreamType.notification),
+  static final Soundpool _soundPool = Soundpool.fromOptions(
+    options: const SoundpoolOptions(streamType: StreamType.music),
   );
 
-  Future<void> load() async {
+  static Future<void> load() async {    
     _id = await rootBundle
-        .load("assets/sound/beep.mid")
+        .load("assets/sound/beep_new.mid")
         .then((ByteData soundData) {
       return _soundPool.load(soundData);
     });
-
-    await play();
   }
 
-  Future<void> play() async {
+  static Future<void> play() async {
+    if (_id == -1) return;
     await _soundPool.play(_id);
   }
 }
