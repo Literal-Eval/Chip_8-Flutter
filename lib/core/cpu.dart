@@ -155,7 +155,7 @@ class CPU {
         case 0x4:
           int Vx = Registers.registers[nibbleTwo];
           int Vy = Registers.registers[nibbleThree];
-          Registers.registers[0xF] = (Vx + Vy) > 0xFFFF ? 1 : 0;
+          Registers.registers[0xF] = (Vx + Vy) > 0xFF ? 1 : 0;
           Registers.registers[nibbleTwo] += Registers.registers[nibbleThree];
           // Registers.registers[nibbleTwo] &= 0xFFFF;
           break;
@@ -208,6 +208,7 @@ class CPU {
     // Set I = nnn
     else if (nibbleOne == 0xA) {
       Registers.I = getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      // print(getAddress(nibbleTwo, nibbleThree, nibbleFour));
     }
 
     // Bnnn - JP V0, addr
@@ -230,22 +231,30 @@ class CPU {
       int currentByte = 0, oldState = 0, newState = 0;
       Registers.registers[0xF] = 0;
 
-      final int x_cor = Registers.registers[nibbleTwo];
-      final int y_cor = Registers.registers[nibbleThree];
+      final int x_cor = Registers.registers[nibbleTwo] % 64;
+      final int y_cor = Registers.registers[nibbleThree] % 32;
 
-      for (int y = 0; y < nibbleFour; y++) {
+      for (int y = 0; y < nibbleFour && y_cor + y < 32; y++) {
         currentByte = Memory.memory[Registers.I + y];
 
-        for (int x = 0; x < 8; x++) {
-          oldState = ScreenBuffer.buffer[(y_cor + y) % 32][(x_cor + x) % 64];
-          newState = oldState ^ ((currentByte >> (7 - x)) & 0x1);
+        for (int x = 0; x < 8 && x_cor + x < 64; x++) {
+          oldState = ScreenBuffer.buffer[y_cor + y][x_cor + x];
+          newState = ((currentByte >> (7 - x)) & 0x1) ^ oldState;
 
           if (oldState == 1 && newState == 0 && Registers.registers[0xF] == 0) {
             Registers.registers[0xF] = 1;
           }
 
-          ScreenBuffer.buffer[(y_cor + y) % 32][(x_cor + x) % 64] = newState;
+          ScreenBuffer.buffer[y_cor + y][x_cor + x] = newState;
         }
+      }
+
+      for (int y = 0; y < 32; y++) {
+        String row = '';
+        for (int x = 0; x < 64; x++) {
+          row += ScreenBuffer.buffer[y][x] == 1 ? "|" : " ";
+        }
+        print(row);
       }
     }
 
