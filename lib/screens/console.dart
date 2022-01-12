@@ -20,22 +20,34 @@ class Console extends StatefulWidget {
   _ConsoleState createState() => _ConsoleState();
 }
 
-class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin {
+class _ConsoleState extends State<Console> with TickerProviderStateMixin {
   late final Ticker _ticker;
+  late final AnimationController cpuCycleCap;
 
   @override
   void initState() {
     super.initState();
 
     CPU.init(dvm);
-    _ticker = createTicker((Duration? _) {
+
+    cpuCycleCap = AnimationController(vsync: this)
+      ..repeat(period: const Duration(milliseconds: 1));
+
+    cpuCycleCap.addListener(() {
       CPU.fetch();
+    });
+
+    _ticker = createTicker((Duration? _) {
+      // CPU.fetch();
     });
     _ticker.start();
   }
 
   @override
   void dispose() {
+    cpuCycleCap.removeListener(() {
+      CPU.fetch();
+    });
     _ticker.dispose();
     super.dispose();
   }

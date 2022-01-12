@@ -19,7 +19,7 @@ class CPU {
 
   static void init(DisplayViewModel ndvm) async {
     dvm = ndvm;
-    FileHandler.load('UFO');
+    FileHandler.load('KEYS');
     CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
@@ -249,10 +249,11 @@ class CPU {
       final int x_cor = Registers.registers[nibbleTwo] % 64;
       final int y_cor = Registers.registers[nibbleThree] % 32;
       // debugPrint('Drawing $nibbleFour bytes from ($x_cor, $y_cor)');
+      debugPrint('I: ${Registers.I}');
 
       for (int y = 0; y < nibbleFour && y_cor + y < 32; y++) {
         currentByte = Memory.memory[Registers.I + y];
-        // String currentRow = 'Output: ';
+        String currentRow = 'Output: ';
         // printBits(currentByte);
 
         for (int x = 0; x < 8 && x_cor + x < 64; x++) {
@@ -265,9 +266,9 @@ class CPU {
           }
 
           ScreenBuffer.buffer[y_cor + y][x_cor + x] = newState;
-          // currentRow += '${ScreenBuffer.buffer[y_cor + y][x_cor + x]}';
+          currentRow += '${ScreenBuffer.buffer[y_cor + y][x_cor + x]}';
         }
-        // debugPrint(currentRow);
+        debugPrint(currentRow);
       }
 
       dvm.notify();
@@ -307,6 +308,7 @@ class CPU {
           final int? key = Keypad.getPressed();
           if (key != null) {
             Registers.registers[nibbleTwo] = key;
+            Keypad.clearPressed();
           } else {
             return false;
           }
@@ -333,8 +335,7 @@ class CPU {
         // Fx29 - LD F, Vx
         // Set I = addr of spr for digit in Vx
         case 0x29:
-          Registers.I = Memory.memory[
-              CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo]];
+          Registers.I = CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo];
           break;
 
         // Fx33 - LD B, Vx
