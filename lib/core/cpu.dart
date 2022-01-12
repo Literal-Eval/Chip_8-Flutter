@@ -43,6 +43,14 @@ class CPU {
     }
   }
 
+  static printBits(int byte) {
+    String num = 'Input: ';
+    for (int i = 0; i < 8; i++) {
+      num += '${(byte >> (7 - i)) & 0x1}';
+    }
+    debugPrint(num);
+  }
+
   // Decode cycle
   // Returns false in case of halt
   static bool decode(int opOne, int opTwo) {
@@ -58,6 +66,7 @@ class CPU {
     // 00E0 - CLS
     // Clear the screen
     if (opOne == 0x00 && opTwo == 0xE0) {
+      // debugPrint('Clearing screen');
       ScreenBuffer.clear();
     }
 
@@ -73,6 +82,7 @@ class CPU {
     // Jump to address 1nnn
     else if (nibbleOne == 0x1) {
       Registers.PC = getAddress(nibbleTwo, nibbleThree, nibbleFour);
+      // debugPrint('Jump to: ${getAddress(nibbleTwo, nibbleThree, nibbleFour)}');
       return false;
     }
 
@@ -113,12 +123,14 @@ class CPU {
     // Set Vx = kk
     else if (nibbleOne == 0x6) {
       Registers.registers[nibbleTwo] = opTwo;
+      // debugPrint('Set 0x$nibbleTwo to $opTwo');
     }
 
     // 7xkk - ADD Vx, byte
     // Set Vx = Vx + kk
     else if (nibbleOne == 0x7) {
       Registers.registers[nibbleTwo] += opTwo;
+      // debugPrint('Add $opTwo to 0x$nibbleTwo');
     }
 
     // 8xyn - ADD Vx, byte
@@ -208,7 +220,7 @@ class CPU {
     // Set I = nnn
     else if (nibbleOne == 0xA) {
       Registers.I = getAddress(nibbleTwo, nibbleThree, nibbleFour);
-      // print(getAddress(nibbleTwo, nibbleThree, nibbleFour));
+      // debugPrint('Set I to: ${getAddress(nibbleTwo, nibbleThree, nibbleFour)}');
     }
 
     // Bnnn - JP V0, addr
@@ -233,28 +245,26 @@ class CPU {
 
       final int x_cor = Registers.registers[nibbleTwo] % 64;
       final int y_cor = Registers.registers[nibbleThree] % 32;
+      debugPrint('Drawing $nibbleFour bytes from ($x_cor, $y_cor)');
 
       for (int y = 0; y < nibbleFour && y_cor + y < 32; y++) {
         currentByte = Memory.memory[Registers.I + y];
+        // String currentRow = 'Output: ';
+        // printBits(currentByte);
 
         for (int x = 0; x < 8 && x_cor + x < 64; x++) {
           oldState = ScreenBuffer.buffer[y_cor + y][x_cor + x];
           newState = ((currentByte >> (7 - x)) & 0x1) ^ oldState;
+          // newState = ((currentByte >> (7 - x)) & 0x1);
 
           if (oldState == 1 && newState == 0 && Registers.registers[0xF] == 0) {
             Registers.registers[0xF] = 1;
           }
 
           ScreenBuffer.buffer[y_cor + y][x_cor + x] = newState;
+          // currentRow += '${ScreenBuffer.buffer[y_cor + y][x_cor + x]}';
         }
-      }
-
-      for (int y = 0; y < 32; y++) {
-        String row = '';
-        for (int x = 0; x < 64; x++) {
-          row += ScreenBuffer.buffer[y][x] == 1 ? "|" : " ";
-        }
-        print(row);
+        // debugPrint(currentRow);
       }
     }
 

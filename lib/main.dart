@@ -1,4 +1,5 @@
 import 'package:chip_8_flutter/data/constants.dart';
+import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
@@ -46,6 +47,7 @@ class _ChipState extends State<Chip> {
     super.didChangeDependencies();
 
     SizeConfig.init(context);
+    ScreenBuffer.init();
   }
 
   @override
