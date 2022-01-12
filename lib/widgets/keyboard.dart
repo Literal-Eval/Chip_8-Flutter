@@ -20,6 +20,8 @@ class Keyboard extends StatelessWidget {
       ),
       child: Center(
         child: GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 4,
           children: Keypad.keyMap
               .map((keyName) => KeypadButton(keyName: keyName))

@@ -1,17 +1,16 @@
-import 'dart:typed_data';
-
 import 'package:chip_8_flutter/core/cpu.dart';
-import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
-// import 'package:chip_8_flutter/view_models/display_view_model.dart';
+import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
 import 'package:chip_8_flutter/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final screenBufferProvider = StateProvider<List <Uint8List>>((ref) {
-  return ScreenBuffer.buffer;
+final DisplayViewModel dvm = DisplayViewModel();
+
+final screenBufferProvider = ChangeNotifierProvider<DisplayViewModel>((ref) {
+  return dvm;
 });
 
 class Console extends StatefulWidget {
@@ -21,16 +20,17 @@ class Console extends StatefulWidget {
   _ConsoleState createState() => _ConsoleState();
 }
 
-class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin{
-
+class _ConsoleState extends State<Console> with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
 
   @override
   void initState() {
     super.initState();
 
-    CPU.init();
-    _ticker = createTicker(CPU.fetch);
+    CPU.init(dvm);
+    _ticker = createTicker((Duration? _) {
+      CPU.fetch();
+    });
     _ticker.start();
   }
 

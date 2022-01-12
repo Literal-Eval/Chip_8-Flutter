@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:chip_8_flutter/data/constants.dart';
 import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
+import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +33,7 @@ class _ScreenState extends State<Screen> {
             height: SizeConfig.widthPercent * 45,
           ),
           painter: ScreenPainter(
-            buffer: ref.watch(screenBufferProvider),
+            dvm: ref.watch(screenBufferProvider),
           ),
         );
       }),
@@ -44,14 +43,15 @@ class _ScreenState extends State<Screen> {
 
 class ScreenPainter extends CustomPainter {
   ScreenPainter({
-    required this.buffer,
+    required this.dvm,
   });
+  // }) : buffer = dvm.buffer;
 
-  final List<Uint8List> buffer;
+  final DisplayViewModel dvm;
+  // final List<Uint8List> buffer;
 
   @override
   void paint(Canvas canvas, Size size) {
-    debugPrint('paint');
     final paint = Paint()
       ..style = PaintingStyle.fill
       ..color = kSecondaryColor
@@ -71,10 +71,12 @@ class ScreenPainter extends CustomPainter {
         }
       }
     }
+
+    dvm.changed = false;
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+    return dvm.changed;
   }
 }

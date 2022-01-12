@@ -10,13 +10,16 @@ import 'package:chip_8_flutter/models/registers.dart';
 import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/models/stack.dart';
+import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:flutter/foundation.dart';
 
 class CPU {
   static final randGen = Random(DateTime.now().millisecondsSinceEpoch);
+  static late DisplayViewModel dvm;
 
-  static void init() async {
-    FileHandler.load('IBM');
+  static void init(DisplayViewModel ndvm) async {
+    dvm = ndvm;
+    FileHandler.load('UFO');
     CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
@@ -33,7 +36,7 @@ class CPU {
     return addr;
   }
 
-  static fetch(Duration _) {
+  static fetch() {
     if (decode(
       Memory.memory[Registers.PC],
       Memory.memory[Registers.PC + 1],
@@ -245,7 +248,7 @@ class CPU {
 
       final int x_cor = Registers.registers[nibbleTwo] % 64;
       final int y_cor = Registers.registers[nibbleThree] % 32;
-      debugPrint('Drawing $nibbleFour bytes from ($x_cor, $y_cor)');
+      // debugPrint('Drawing $nibbleFour bytes from ($x_cor, $y_cor)');
 
       for (int y = 0; y < nibbleFour && y_cor + y < 32; y++) {
         currentByte = Memory.memory[Registers.I + y];
@@ -266,6 +269,8 @@ class CPU {
         }
         // debugPrint(currentRow);
       }
+
+      dvm.notify();
     }
 
     // Ex9E - SKP Vx
