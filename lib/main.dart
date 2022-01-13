@@ -3,6 +3,7 @@ import 'package:chip_8_flutter/models/display.dart';
 import 'package:chip_8_flutter/models/speaker.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
+import 'package:chip_8_flutter/widgets/menu_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,13 +56,17 @@ class _ChipState extends State<Chip> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: TextButton(
-          child: const Text('Load'),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const Console();
-            }));
-          },
+        child: SizedBox(
+          width: SizeConfig.widthPercent * 60,
+          height: SizeConfig.heightPercent * 10,
+          child: MenuButton(
+            text: 'CHIP 8',
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Console();
+              }));
+            },
+          ),
         ),
       ),
     );
