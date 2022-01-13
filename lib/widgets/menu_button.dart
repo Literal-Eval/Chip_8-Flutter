@@ -1,4 +1,5 @@
 import 'package:chip_8_flutter/data/constants.dart';
+import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatefulWidget {
@@ -78,7 +79,7 @@ class _MenuButtonState extends State<MenuButton>
               children: [
                 Positioned(
                   left: 0,
-                  right: 0,
+                  right: gap,
                   bottom: 0,
                   child: Container(
                     height: constraints.maxHeight - gap,
@@ -89,22 +90,24 @@ class _MenuButtonState extends State<MenuButton>
                   ),
                 ),
                 Positioned(
-                  left: 0,
+                  left: gap,
                   right: 0,
                   top: _btnHeightAnimation.value * gap,
                   child: Container(
                     height: constraints.maxHeight - gap,
                     decoration: BoxDecoration(
                       color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(40),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.heightPercent * 5),
                     ),
                     child: Center(
                       child: Text(
                         widget.text,
-                        style: const TextStyle(
-                          fontSize: 30,
+                        style: TextStyle(
+                          fontSize: SizeConfig.heightPercent * 3.5,
                           color: kSecondaryColor,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Frontage-3D',
                         ),
                       ),
                     ),

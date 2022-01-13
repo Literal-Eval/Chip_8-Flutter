@@ -56,17 +56,44 @@ class _ChipState extends State<Chip> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          width: SizeConfig.widthPercent * 60,
-          height: SizeConfig.heightPercent * 10,
-          child: MenuButton(
-            text: 'CHIP 8',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Console();
-              }));
-            },
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: SizeConfig.widthPercent * 60,
+              height: SizeConfig.heightPercent * 10,
+              child: MenuButton(
+                text: 'CHIP-8',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const Console();
+                  }));
+                },
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.heightPercent * 2,
+            ),
+            SizedBox(
+              width: SizeConfig.widthPercent * 60,
+              height: SizeConfig.heightPercent * 10,
+              child: MenuButton(
+                text: 'SCHIP-8',
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.heightPercent * 2,
+            ),
+            SizedBox(
+              width: SizeConfig.widthPercent * 60,
+              height: SizeConfig.heightPercent * 10,
+              child: MenuButton(
+                text: 'NES',
+                onPressed: () {},
+              ),
+            ),
+          ],
         ),
       ),
     );
