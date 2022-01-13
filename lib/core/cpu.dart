@@ -19,7 +19,7 @@ class CPU {
 
   static void init(DisplayViewModel ndvm) async {
     dvm = ndvm;
-    FileHandler.load('RPS');
+    FileHandler.load('petdog.ch8');
     CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
