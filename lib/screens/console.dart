@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chip_8_flutter/core/cpu.dart';
 import 'package:chip_8_flutter/models/registers.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
@@ -23,7 +25,8 @@ class Console extends StatefulWidget {
 
 class _ConsoleState extends State<Console> with TickerProviderStateMixin {
   late final Ticker _ticker;
-  late final AnimationController _cpuCycleCap;
+  // late final AnimationController _cpuCycleCap;
+  late final Timer _cap;
 
   @override
   void initState() {
@@ -31,10 +34,13 @@ class _ConsoleState extends State<Console> with TickerProviderStateMixin {
 
     CPU.init(dvm);
 
-    _cpuCycleCap = AnimationController(vsync: this)
-      ..repeat(period: const Duration(milliseconds: 1));
+    // _cpuCycleCap = AnimationController(vsync: this)
+    //   ..repeat(period: const Duration(milliseconds: 1));
 
-    _cpuCycleCap.addListener(() {
+    // _cpuCycleCap.addListener(() {
+    //   CPU.fetch();
+    // });
+    _cap = Timer.periodic(const Duration(milliseconds: 1), (timer) {
       CPU.fetch();
     });
 
@@ -47,10 +53,11 @@ class _ConsoleState extends State<Console> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _cpuCycleCap.removeListener(() {
-      CPU.fetch();
-    });
-    _cpuCycleCap.dispose();
+    // _cpuCycleCap.removeListener(() {
+    //   CPU.fetch();
+    // });
+    _cap.cancel();
+    // _cpuCycleCap.dispose();
     _ticker.dispose();
     super.dispose();
   }

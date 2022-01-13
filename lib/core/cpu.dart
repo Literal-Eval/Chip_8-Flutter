@@ -19,7 +19,7 @@ class CPU {
 
   static void init(DisplayViewModel ndvm) async {
     dvm = ndvm;
-    FileHandler.load('IBM');
+    FileHandler.load('RPS');
     CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
@@ -37,12 +37,12 @@ class CPU {
   }
 
   static fetch() {
+    if (Registers.PC >= 4095) return;
     if (decode(
       Memory.memory[Registers.PC],
       Memory.memory[Registers.PC + 1],
     )) {
       Registers.PC += 2;
-      // debugPrint('fetch ${Registers.PC}');
     }
   }
 
@@ -334,7 +334,8 @@ class CPU {
         // Fx29 - LD F, Vx
         // Set I = addr of spr for digit in Vx
         case 0x29:
-          Registers.I = CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo];
+          Registers.I =
+              CharacterMap.spriteLoc + 5 * Registers.registers[nibbleTwo];
           break;
 
         // Fx33 - LD B, Vx
