@@ -90,8 +90,8 @@ class _MenuButtonState extends State<MenuButton>
                   ),
                 ),
                 Positioned(
-                  left: gap,
-                  right: 0,
+                  left: gap * (1 - _btnHeightAnimation.value),
+                  right: _btnHeightAnimation.value * gap,
                   top: _btnHeightAnimation.value * gap,
                   child: Container(
                     height: constraints.maxHeight - gap,
