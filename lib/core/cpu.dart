@@ -19,7 +19,7 @@ class CPU {
 
   static void init(DisplayViewModel ndvm) async {
     dvm = ndvm;
-    FileHandler.load('KEYS');
+    FileHandler.load('IBM');
     CharacterMap.init();
     Registers.PC = Memory.memStart;
     await Speaker.play();
@@ -249,11 +249,10 @@ class CPU {
       final int x_cor = Registers.registers[nibbleTwo] % 64;
       final int y_cor = Registers.registers[nibbleThree] % 32;
       // debugPrint('Drawing $nibbleFour bytes from ($x_cor, $y_cor)');
-      debugPrint('I: ${Registers.I}');
 
       for (int y = 0; y < nibbleFour && y_cor + y < 32; y++) {
         currentByte = Memory.memory[Registers.I + y];
-        String currentRow = 'Output: ';
+        // String currentRow = 'Output: ';
         // printBits(currentByte);
 
         for (int x = 0; x < 8 && x_cor + x < 64; x++) {
@@ -266,9 +265,9 @@ class CPU {
           }
 
           ScreenBuffer.buffer[y_cor + y][x_cor + x] = newState;
-          currentRow += '${ScreenBuffer.buffer[y_cor + y][x_cor + x]}';
+          // currentRow += '${ScreenBuffer.buffer[y_cor + y][x_cor + x]}';
         }
-        debugPrint(currentRow);
+        // debugPrint(currentRow);
       }
 
       dvm.notify();

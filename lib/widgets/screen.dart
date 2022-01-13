@@ -22,7 +22,7 @@ class _ScreenState extends State<Screen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(SizeConfig.widthPercent * 2),
         border: Border.all(
-          color: kSecondaryColor,
+          color: kPrimaryColor,
           width: SizeConfig.widthPercent * 2,
         ),
       ),
@@ -45,16 +45,14 @@ class ScreenPainter extends CustomPainter {
   ScreenPainter({
     required this.dvm,
   });
-  // }) : buffer = dvm.buffer;
 
   final DisplayViewModel dvm;
-  // final List<Uint8List> buffer;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    Paint paint = Paint()
       ..style = PaintingStyle.fill
-      ..color = kSecondaryColor
+      ..color = kPrimaryColor
       ..strokeJoin = StrokeJoin.round;
 
     final double blockHeight = size.height / 32;

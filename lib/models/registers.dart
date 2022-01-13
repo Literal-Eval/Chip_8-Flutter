@@ -2,6 +2,8 @@
 
 import 'dart:typed_data';
 
+import 'package:chip_8_flutter/models/speaker.dart';
+
 class Registers {
 
   // General Registers
@@ -15,4 +17,17 @@ class Registers {
 
   static int PC = 0;      // Uint16
   static int SP = 0;      // Uint8 
+
+  static handleDT() {
+    if (DT > 0) {
+      DT--;
+    }
+  }
+
+  static handleST() {
+    if (ST > 0) {
+      Speaker.play();
+      ST--;
+    }
+  }
 }

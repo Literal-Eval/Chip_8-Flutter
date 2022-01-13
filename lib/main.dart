@@ -12,19 +12,20 @@ void main() async {
       child: MaterialApp(
         home: const Chip(),
         theme: ThemeData.dark().copyWith(
-          primaryColor: kSecondaryColor,
-          scaffoldBackgroundColor: kPrimaryColor,
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: kSecondaryColor,
           appBarTheme: const AppBarTheme(
             elevation: 0,
-            backgroundColor: kPrimaryColor,
+            backgroundColor: kSecondaryColor,
             titleTextStyle: TextStyle(
-              color: kSecondaryColor,
+              color: kPrimaryColor,
+              fontWeight: FontWeight.bold,
             ),
-            iconTheme: IconThemeData(color: kSecondaryColor),
+            iconTheme: IconThemeData(color: kPrimaryColor),
           ),
           textTheme: const TextTheme(
             bodyText2: TextStyle(
-              color: kSecondaryColor,
+              color: kPrimaryColor,
             ),
           ),
         ),

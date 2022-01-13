@@ -1,4 +1,5 @@
 import 'package:chip_8_flutter/core/cpu.dart';
+import 'package:chip_8_flutter/models/registers.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
@@ -22,7 +23,7 @@ class Console extends StatefulWidget {
 
 class _ConsoleState extends State<Console> with TickerProviderStateMixin {
   late final Ticker _ticker;
-  late final AnimationController cpuCycleCap;
+  late final AnimationController _cpuCycleCap;
 
   @override
   void initState() {
@@ -30,24 +31,26 @@ class _ConsoleState extends State<Console> with TickerProviderStateMixin {
 
     CPU.init(dvm);
 
-    cpuCycleCap = AnimationController(vsync: this)
+    _cpuCycleCap = AnimationController(vsync: this)
       ..repeat(period: const Duration(milliseconds: 1));
 
-    cpuCycleCap.addListener(() {
+    _cpuCycleCap.addListener(() {
       CPU.fetch();
     });
 
     _ticker = createTicker((Duration? _) {
-      // CPU.fetch();
+      Registers.handleDT();
+      Registers.handleST();
     });
     _ticker.start();
   }
 
   @override
   void dispose() {
-    cpuCycleCap.removeListener(() {
+    _cpuCycleCap.removeListener(() {
       CPU.fetch();
     });
+    _cpuCycleCap.dispose();
     _ticker.dispose();
     super.dispose();
   }

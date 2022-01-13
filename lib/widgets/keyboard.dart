@@ -14,7 +14,7 @@ class Keyboard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(SizeConfig.widthPercent * 2),
         border: Border.all(
-          color: kSecondaryColor,
+          color: kPrimaryColor,
           width: SizeConfig.widthPercent * 2,
         ),
       ),
@@ -43,9 +43,9 @@ class KeypadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: kPrimaryColor,
+      color: kSecondaryColor,
       child: InkWell(
-        splashColor: kSecondaryColor.withOpacity(0.5),
+        splashColor: kPrimaryColor.withOpacity(0.5),
         child: Center(
           child: Text(
             keyName,
