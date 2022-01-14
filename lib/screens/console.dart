@@ -17,7 +17,12 @@ final screenBufferProvider = ChangeNotifierProvider<DisplayViewModel>((ref) {
 });
 
 class Console extends StatefulWidget {
-  const Console({Key? key}) : super(key: key);
+  const Console({
+    required this.romName,
+    Key? key,
+  }) : super(key: key);
+
+  final String romName;
 
   @override
   _ConsoleState createState() => _ConsoleState();
@@ -32,7 +37,7 @@ class _ConsoleState extends State<Console> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    CPU.init(dvm);
+    CPU.init(widget.romName, dvm);
 
     // _cpuCycleCap = AnimationController(vsync: this)
     //   ..repeat(period: const Duration(milliseconds: 1));

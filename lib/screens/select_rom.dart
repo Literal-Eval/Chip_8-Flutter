@@ -1,4 +1,6 @@
 import 'package:chip_8_flutter/data/constants.dart';
+import 'package:chip_8_flutter/data/rom_data.dart';
+import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +41,29 @@ class SelectROMScreen extends StatelessWidget {
                 ),
               ),
               ListView(
-                
+                children: roms.map(
+                  (rom) {
+                    return ListTile(
+                      title: Text(
+                        rom.name,
+                        style: const TextStyle(
+                          fontFamily: 'Noir-Regular',
+                          fontSize: 20,
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Console(romName: rom.fileName),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ).toList(),
               ),
             ],
           ),

@@ -17,11 +17,14 @@ class CPU {
   static final randGen = Random(DateTime.now().millisecondsSinceEpoch);
   static late DisplayViewModel dvm;
 
-  static void init(DisplayViewModel ndvm) async {
+  static void init(String romName, DisplayViewModel ndvm) async {
     dvm = ndvm;
-    FileHandler.load('petdog.ch8');
+    
+    ScreenBuffer.clear();
+    Registers.init();
+    FileHandler.load(romName);
     CharacterMap.init();
-    Registers.PC = Memory.memStart;
+    
     await Speaker.play();
   }
 

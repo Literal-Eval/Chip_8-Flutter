@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:chip_8_flutter/chip_8/models/memory.dart';
 import 'package:chip_8_flutter/chip_8/models/speaker.dart';
 
 class Registers {
@@ -29,5 +30,12 @@ class Registers {
       Speaker.play();
       ST--;
     }
+  }
+
+  static init() {
+    ST = DT = I = PC = SP = 0;
+    registers.clear();
+    registers = Uint8List(0x10);
+    Registers.PC = Memory.memStart;
   }
 }
