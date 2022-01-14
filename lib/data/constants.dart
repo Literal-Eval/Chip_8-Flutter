@@ -7,7 +7,8 @@ const int kRefRate = 60;
 // const Color kSecondaryColor = Color(0xFF31322D);
 
 const Color kPrimaryColor = Color(0xFFE5A632);
-const Color kSecondaryColor = Color(0xFF4C2215);
+const Color kSecondaryColor = Color(0xFF140420);
+const Color kButtonColor = Color(0xFF4C2215);
 
 // SanFransisco Color Pallete
 

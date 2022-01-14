@@ -67,7 +67,7 @@ class _ConsoleState extends State<Console> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Chip_8'),
+        title: const Text('Chip-8'),
         titleTextStyle: AppBarTheme.of(context)
             .titleTextStyle!
             .copyWith(fontSize: SizeConfig.widthPercent * 5),

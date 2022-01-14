@@ -21,6 +21,7 @@ void main() async {
             titleTextStyle: TextStyle(
               color: kPrimaryColor,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Abang',
             ),
             iconTheme: IconThemeData(color: kPrimaryColor),
           ),

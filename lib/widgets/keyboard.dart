@@ -11,13 +11,13 @@ class Keyboard extends StatelessWidget {
     return Container(
       width: SizeConfig.widthPercent * 95,
       height: SizeConfig.heightPercent * 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(SizeConfig.widthPercent * 2),
-        border: Border.all(
-          color: kPrimaryColor,
-          width: SizeConfig.widthPercent * 2,
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(SizeConfig.widthPercent * 2),
+      //   border: Border.all(
+      //     color: kPrimaryColor,
+      //     width: SizeConfig.widthPercent * 2,
+      //   ),
+      // ),
       child: Center(
         child: GridView.count(
           shrinkWrap: true,
@@ -43,6 +43,7 @@ class KeypadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      // shadowColor: kShadowColor,
       color: kSecondaryColor,
       child: InkWell(
         splashColor: kPrimaryColor.withOpacity(0.5),
@@ -51,6 +52,8 @@ class KeypadButton extends StatelessWidget {
             keyName,
             style: TextStyle(
               fontSize: SizeConfig.widthPercent * 10,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'NEONLEDLight',
             ),
           ),
         ),
