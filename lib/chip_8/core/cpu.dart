@@ -2,14 +2,14 @@
 
 import 'dart:math';
 
-import 'package:chip_8_flutter/core/file_handler.dart';
-import 'package:chip_8_flutter/data/character_map.dart';
-import 'package:chip_8_flutter/models/keypad.dart';
-import 'package:chip_8_flutter/models/memory.dart';
-import 'package:chip_8_flutter/models/registers.dart';
-import 'package:chip_8_flutter/models/display.dart';
-import 'package:chip_8_flutter/models/speaker.dart';
-import 'package:chip_8_flutter/models/stack.dart';
+import 'package:chip_8_flutter/chip_8/core/file_handler.dart';
+import 'package:chip_8_flutter/chip_8/data/character_map.dart';
+import 'package:chip_8_flutter/chip_8/models/keypad.dart';
+import 'package:chip_8_flutter/chip_8/models/memory.dart';
+import 'package:chip_8_flutter/chip_8/models/registers.dart';
+import 'package:chip_8_flutter/chip_8/models/display.dart';
+import 'package:chip_8_flutter/chip_8/models/speaker.dart';
+import 'package:chip_8_flutter/chip_8/models/stack.dart';
 import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:flutter/foundation.dart';
 

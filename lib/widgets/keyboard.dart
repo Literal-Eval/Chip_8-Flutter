@@ -1,5 +1,5 @@
 import 'package:chip_8_flutter/data/constants.dart';
-import 'package:chip_8_flutter/models/keypad.dart';
+import 'package:chip_8_flutter/chip_8/models/keypad.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:flutter/material.dart';
 

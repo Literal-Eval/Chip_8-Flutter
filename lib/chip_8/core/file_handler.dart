@@ -1,4 +1,4 @@
-import 'package:chip_8_flutter/models/memory.dart';
+import 'package:chip_8_flutter/chip_8/models/memory.dart';
 import 'package:flutter/services.dart';
 
 class FileHandler {

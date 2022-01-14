@@ -2,7 +2,7 @@
 
 import 'dart:typed_data';
 
-import 'package:chip_8_flutter/models/speaker.dart';
+import 'package:chip_8_flutter/chip_8/models/speaker.dart';
 
 class Registers {
 

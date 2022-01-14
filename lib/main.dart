@@ -1,7 +1,7 @@
 import 'package:chip_8_flutter/data/constants.dart';
-import 'package:chip_8_flutter/models/display.dart';
-import 'package:chip_8_flutter/models/speaker.dart';
-import 'package:chip_8_flutter/screens/console.dart';
+import 'package:chip_8_flutter/chip_8/models/display.dart';
+import 'package:chip_8_flutter/chip_8/models/speaker.dart';
+import 'package:chip_8_flutter/screens/select_rom.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/widgets/menu_button.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class _ChipState extends State<Chip> {
                 text: 'CHIP-8',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const Console();
+                    return const SelectROMScreen();
                   }));
                 },
               ),

@@ -1,5 +1,5 @@
 import 'package:chip_8_flutter/data/constants.dart';
-import 'package:chip_8_flutter/models/display.dart';
+import 'package:chip_8_flutter/chip_8/models/display.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/view_models/display_view_model.dart';

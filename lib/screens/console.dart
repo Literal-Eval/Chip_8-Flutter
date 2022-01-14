@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:chip_8_flutter/core/cpu.dart';
-import 'package:chip_8_flutter/models/registers.dart';
+import 'package:chip_8_flutter/chip_8/core/cpu.dart';
+import 'package:chip_8_flutter/chip_8/models/registers.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/view_models/display_view_model.dart';
 import 'package:chip_8_flutter/widgets/keyboard.dart';
