@@ -34,7 +34,7 @@ class Registers {
 
   static init() {
     ST = DT = I = PC = SP = 0;
-    registers.clear();
+    registers.fillRange(0, 0xF, 0);
     registers = Uint8List(0x10);
     Registers.PC = Memory.memStart;
   }

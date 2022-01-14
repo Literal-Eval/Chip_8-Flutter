@@ -2,6 +2,7 @@ import 'package:chip_8_flutter/data/constants.dart';
 import 'package:chip_8_flutter/data/rom_data.dart';
 import 'package:chip_8_flutter/screens/console.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class SelectROMScreen extends StatelessWidget {
@@ -41,6 +42,7 @@ class SelectROMScreen extends StatelessWidget {
                 ),
               ),
               ListView(
+                physics: const BouncingScrollPhysics(),
                 children: roms.map(
                   (rom) {
                     return ListTile(
