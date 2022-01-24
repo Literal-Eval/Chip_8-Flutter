@@ -10,9 +10,9 @@ Does what the title says.
 
 # Screenshots
 ## Home (Power Off)
-![Home Power Off](/screenshots/Screenshot_20220124-211403.jpg)
+![Home Power Off](/screenshots/Screenshot_20220124-211403.jpg =300x)
 ## Home (Power on)
-![Home Power On](/screenshots/Screenshot_20220124-211409.jpg)
+![Home Power On](/screenshots/Screenshot_20220124-211409.jpg =300x)
 
 ## CHIP 8 
-![Chip 8](/screenshots/Screenshot_20220124-211426.jpg)
+![Chip 8](/screenshots/Screenshot_20220124-211426.jpg =300x)
