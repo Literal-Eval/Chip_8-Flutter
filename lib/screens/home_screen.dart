@@ -37,18 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // SizedBox(
-            //   width: SizeConfig.widthPercent * 60,
-            //   height: SizeConfig.heightPercent * 10,
-            //   child: MenuButton(
-            //     text: 'CHIP-8',
-            //     onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //   return const SelectROMScreen();
-            // }));
-            //     },
-            //   ),
-            // ),
             CustomPaint(
               painter: HomeScreenDisplayPainter(isBackground: true),
               child: Container(
