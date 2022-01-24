@@ -2,6 +2,12 @@ import 'package:chip_8_flutter/data/constants.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenControlsPainter extends CustomPainter {
+  HomeScreenControlsPainter({
+    required this.isForeground,
+  });
+
+  final isForeground;
+
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path();
@@ -26,17 +32,22 @@ class HomeScreenControlsPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..style = PaintingStyle.stroke;
 
-    canvas.drawPath(
-      path.shift(const Offset(5, 20)),
-      paint..color = Colors.black,
-    );
-    paint.color = kBlueNeonColor;
-    canvas.drawPath(path, paint);
-    canvas.drawPath(
-      path,
-      paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
-    );
-    canvas.drawPath(path, fPaint);
+    if (!isForeground) {
+      canvas.drawPath(
+        path.shift(const Offset(5, 20)),
+        paint
+          ..color = kBlueNeonColor
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 15),
+      );
+    } else {
+      paint.color = kBlueNeonColor;
+      canvas.drawPath(path, paint);
+      canvas.drawPath(
+        path,
+        paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+      );
+      canvas.drawPath(path, fPaint);
+    }
   }
 
   @override

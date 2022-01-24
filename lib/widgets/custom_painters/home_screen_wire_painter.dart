@@ -31,9 +31,13 @@ class HomeScreenWirePainter extends CustomPainter {
 
     canvas.drawPath(
       path.shift(const Offset(5, 20)),
-      paint..color = Colors.black,
+      paint
+        ..color = kBlueNeonColor
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
     );
-    paint.color = kBlueNeonColor;
+    paint
+      ..color = kBlueNeonColor
+      ..maskFilter = null;
     canvas.drawPath(path, paint);
     canvas.drawPath(
       path,

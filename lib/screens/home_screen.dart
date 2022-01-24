@@ -1,4 +1,5 @@
 import 'package:chip_8_flutter/chip_8/models/display.dart';
+import 'package:chip_8_flutter/screens/select_rom.dart';
 import 'package:chip_8_flutter/utils/size_config.dart';
 import 'package:chip_8_flutter/widgets/custom_painters/choose_emu_tile.dart';
 import 'package:chip_8_flutter/widgets/custom_painters/home_screen_controls_painter.dart';
@@ -42,9 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
             //   child: MenuButton(
             //     text: 'CHIP-8',
             //     onPressed: () {
-            //       Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //         return const SelectROMScreen();
-            //       }));
+            // Navigator.push(context, MaterialPageRoute(builder: (context) {
+            //   return const SelectROMScreen();
+            // }));
             //     },
             //   ),
             // ),
@@ -108,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: SizeConfig.heightPercent * 2,
             ),
             CustomPaint(
+              painter: HomeScreenControlsPainter(isForeground: false),
               child: SizedBox(
                 width: SizeConfig.widthPercent * 80,
                 height: SizeConfig.heightPercent * 15,
@@ -123,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.widthPercent * 8,
+                      width: SizeConfig.widthPercent * 12,
                     ),
                     HomeScreenMinusButton(
                       onPressed: () {
@@ -134,19 +136,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.widthPercent * 8,
+                      width: SizeConfig.widthPercent * 12,
                     ),
-                    HomeScreenPowerButton(
-                      onPressed: () {
-                        setState(() {
-                          isRunning = !isRunning;
-                        });
-                      },
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        HomeScreenRoundButton(
+                          isPower: true,
+                          onPressed: () {
+                            setState(() {
+                              isRunning = !isRunning;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: SizeConfig.heightPercent * 2,
+                        ),
+                        HomeScreenRoundButton(
+                          isPower: false,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SelectROMScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              painter: HomeScreenControlsPainter(),
+              foregroundPainter: HomeScreenControlsPainter(isForeground: true),
             ),
           ],
         ),

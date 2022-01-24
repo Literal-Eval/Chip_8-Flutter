@@ -3,7 +3,13 @@ import 'dart:math' as math;
 import 'package:chip_8_flutter/data/constants.dart';
 import 'package:flutter/material.dart';
 
-class PowerButtonPainter extends CustomPainter {
+class RoundButtonPainter extends CustomPainter {
+  RoundButtonPainter({
+    required this.isPower,
+  });
+
+  final bool isPower;
+
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path();
@@ -17,7 +23,7 @@ class PowerButtonPainter extends CustomPainter {
 
     final paint = Paint()
       ..strokeWidth = 15
-      ..color = kButtonColor
+      ..color = isPower ? kPowerButtonColor : kStartButtonColor
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..style = PaintingStyle.stroke;
@@ -30,10 +36,14 @@ class PowerButtonPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     canvas.drawPath(
-      path.shift(const Offset(5, 20)),
-      paint..color = Colors.black,
+      path.shift(const Offset(5, 10)),
+      paint
+        ..color = isPower ? kPowerButtonColor : kStartButtonColor
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20),
     );
-    paint.color = kButtonColor;
+    paint
+      ..color = isPower ? kPowerButtonColor : kStartButtonColor
+      ..maskFilter = null;
     canvas.drawPath(path, paint);
     canvas.drawPath(
       path,

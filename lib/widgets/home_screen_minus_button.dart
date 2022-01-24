@@ -16,8 +16,8 @@ class HomeScreenMinusButton extends StatelessWidget {
       onTap: onPressed,
       child: CustomPaint(
         size: Size(
-          SizeConfig.widthPercent * 15,
-          SizeConfig.widthPercent * 15,
+          SizeConfig.widthPercent * 12,
+          SizeConfig.widthPercent * 12,
         ),
         painter: MinusButtonPainter(),
       ),
