@@ -45,13 +45,9 @@ class HomeScreenDisplayPainter extends CustomPainter {
 
     if (isBackground) {
       canvas.drawPath(
-        path.shift(const Offset(15, 20)),
-        paint
-          ..color = kGreenNeonColor
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5)
-          ..strokeWidth = 5,
+        path.shift(const Offset(15, 25)),
+        paint..color = Colors.black,
       );
-      paint.color = kGreenNeonColor;
     }
 
     if (!isBackground) {

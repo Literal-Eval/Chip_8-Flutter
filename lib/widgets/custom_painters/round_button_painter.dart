@@ -37,13 +37,9 @@ class RoundButtonPainter extends CustomPainter {
 
     canvas.drawPath(
       path.shift(const Offset(5, 10)),
-      paint
-        ..color = isPower ? kPowerButtonColor : kStartButtonColor
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20),
+      paint..color = Colors.black,
     );
-    paint
-      ..color = isPower ? kPowerButtonColor : kStartButtonColor
-      ..maskFilter = null;
+    paint.color = isPower ? kPowerButtonColor : kStartButtonColor;
     canvas.drawPath(path, paint);
     canvas.drawPath(
       path,

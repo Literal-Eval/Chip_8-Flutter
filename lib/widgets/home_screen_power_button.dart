@@ -18,8 +18,8 @@ class HomeScreenRoundButton extends StatelessWidget {
       onTap: onPressed,
       child: CustomPaint(
         size: Size(
-          SizeConfig.widthPercent * 9,
-          SizeConfig.widthPercent * 9,
+          SizeConfig.widthPercent * 12,
+          SizeConfig.widthPercent * 12,
         ),
         painter: RoundButtonPainter(isPower: isPower),
       ),

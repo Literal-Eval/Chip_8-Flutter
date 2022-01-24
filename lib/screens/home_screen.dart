@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.widthPercent * 12,
+                      width: SizeConfig.widthPercent * 5,
                     ),
                     HomeScreenMinusButton(
                       onPressed: () {
@@ -136,36 +136,31 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     SizedBox(
-                      width: SizeConfig.widthPercent * 12,
+                      width: SizeConfig.widthPercent * 5,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        HomeScreenRoundButton(
-                          isPower: true,
-                          onPressed: () {
-                            setState(() {
-                              isRunning = !isRunning;
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: SizeConfig.heightPercent * 2,
-                        ),
-                        HomeScreenRoundButton(
-                          isPower: false,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const SelectROMScreen();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                    HomeScreenRoundButton(
+                      isPower: true,
+                      onPressed: () {
+                        setState(() {
+                          isRunning = !isRunning;
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      width: SizeConfig.widthPercent * 5,
+                    ),
+                    HomeScreenRoundButton(
+                      isPower: false,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const SelectROMScreen();
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

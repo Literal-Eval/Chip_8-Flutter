@@ -35,9 +35,7 @@ class HomeScreenControlsPainter extends CustomPainter {
     if (!isForeground) {
       canvas.drawPath(
         path.shift(const Offset(5, 20)),
-        paint
-          ..color = kBlueNeonColor
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 15),
+        paint..color = Colors.black,
       );
     } else {
       paint.color = kBlueNeonColor;

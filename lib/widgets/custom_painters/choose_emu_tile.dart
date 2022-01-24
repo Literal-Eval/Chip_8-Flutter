@@ -43,11 +43,11 @@ class _EmuListTileState extends State<EmuListTile> {
               color: kGreenNeonColor,
               fontWeight: FontWeight.bold,
               fontFamily: 'Abang',
-              shadows: [
+              shadows: const [
                 Shadow(
-                  color: kGreenNeonColor.withOpacity(0.5),
-                  blurRadius: 10,
-                  offset: const Offset(8, 8),
+                  color: Colors.black,
+                  // blurRadius: 10,
+                  offset: Offset(8, 8),
                 ),
               ],
             ),

@@ -26,13 +26,9 @@ class MinusButtonPainter extends CustomPainter {
 
     canvas.drawPath(
       path.shift(const Offset(5, 10)),
-      paint
-        ..color = kBlueNeonColor
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
+      paint..color = Colors.black,
     );
-    paint
-      ..color = kBlueNeonColor
-      ..maskFilter = null;
+    paint.color = kBlueNeonColor;
     canvas.drawPath(path, paint);
     canvas.drawPath(
       path,

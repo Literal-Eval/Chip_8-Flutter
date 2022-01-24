@@ -28,17 +28,13 @@ class PlusButtonPainter extends CustomPainter {
 
     canvas.drawPath(
       path.shift(const Offset(5, 10)),
-      paint
-        ..color = kBlueNeonColor
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
+      paint..color = Colors.black,
     );
-    paint
-      ..color = kBlueNeonColor
-      ..maskFilter = null;
+    paint.color = kBlueNeonColor;
     canvas.drawPath(path, paint);
     canvas.drawPath(
       path,
-      paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+      paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 5),
     );
     canvas.drawPath(path, fPaint);
   }
