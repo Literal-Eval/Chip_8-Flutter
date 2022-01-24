@@ -1,4 +1,4 @@
-# CHIP 8, SCIP 8 and NES Emulators in Flutter
+# CHIP 8, SCHIP 8 and NES Emulators in Flutter
 Does what the title says.
 
 # Features
