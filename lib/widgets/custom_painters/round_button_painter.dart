@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 class RoundButtonPainter extends CustomPainter {
   RoundButtonPainter({
     required this.isPower,
+    required this.isRunning,
   });
 
   final bool isPower;
+  final bool isRunning;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -41,11 +43,14 @@ class RoundButtonPainter extends CustomPainter {
     );
     paint.color = isPower ? kPowerButtonColor : kStartButtonColor;
     canvas.drawPath(path, paint);
-    canvas.drawPath(
-      path,
-      paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
-    );
-    canvas.drawPath(path, fPaint);
+
+    if (isRunning) {
+      canvas.drawPath(
+        path,
+        paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+      );
+      canvas.drawPath(path, fPaint);
+    }
   }
 
   @override

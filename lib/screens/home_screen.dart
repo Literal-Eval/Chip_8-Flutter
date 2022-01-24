@@ -7,7 +7,7 @@ import 'package:chip_8_flutter/widgets/custom_painters/home_screen_display_paint
 import 'package:chip_8_flutter/widgets/custom_painters/home_screen_wire_painter.dart';
 import 'package:chip_8_flutter/widgets/home_screen_minus_button.dart';
 import 'package:chip_8_flutter/widgets/home_screen_plus_button.dart';
-import 'package:chip_8_flutter/widgets/home_screen_power_button.dart';
+import 'package:chip_8_flutter/widgets/home_screen_round_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,46 +48,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 width: SizeConfig.widthPercent * 80,
                 height: SizeConfig.heightPercent * 35,
-                child: Container(
-                  padding: EdgeInsets.only(
-                    bottom: SizeConfig.heightPercent * 8,
-                  ),
-                  // color: kSecondaryColor,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        EmuListTile(
-                          name: 'CHIP - 8',
-                          isSelected: choosenEmuIndex == 0,
+                child: isRunning
+                    ? Container(
+                        padding: EdgeInsets.only(
+                          bottom: SizeConfig.heightPercent * 8,
                         ),
-                        SizedBox(
-                          height: SizeConfig.heightPercent * 1,
+                        // color: kSecondaryColor,
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              EmuListTile(
+                                name: 'CHIP - 8',
+                                isSelected: choosenEmuIndex == 0,
+                              ),
+                              SizedBox(
+                                height: SizeConfig.heightPercent * 1,
+                              ),
+                              EmuListTile(
+                                name: 'SCHIP - 8',
+                                isSelected: choosenEmuIndex == 1,
+                              ),
+                              SizedBox(
+                                height: SizeConfig.heightPercent * 1,
+                              ),
+                              EmuListTile(
+                                name: 'NES',
+                                isSelected: choosenEmuIndex == 2,
+                              ),
+                            ],
+                          ),
                         ),
-                        EmuListTile(
-                          name: 'SCHIP - 8',
-                          isSelected: choosenEmuIndex == 1,
-                        ),
-                        SizedBox(
-                          height: SizeConfig.heightPercent * 1,
-                        ),
-                        EmuListTile(
-                          name: 'NES',
-                          isSelected: choosenEmuIndex == 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : const SizedBox(),
               ),
-              foregroundPainter: HomeScreenDisplayPainter(isBackground: false),
+              foregroundPainter: HomeScreenDisplayPainter(
+                isBackground: false,
+                isRunning: isRunning,
+              ),
             ),
             SizedBox(
               height: SizeConfig.heightPercent * 2,
             ),
             CustomPaint(
-              painter: HomeScreenWirePainter(),
+              painter: HomeScreenWirePainter(isRunning: isRunning),
               child: SizedBox(
                 width: SizeConfig.widthPercent * 80,
                 height: SizeConfig.heightPercent * 20,
@@ -106,21 +111,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     HomeScreenPlusButton(
+                      isRunning: isRunning,
                       onPressed: () {
-                        setState(() {
-                          choosenEmuIndex = (choosenEmuIndex + 1) % emuCount;
-                        });
+                        if (isRunning) {
+                          setState(() {
+                            choosenEmuIndex = (choosenEmuIndex + 1) % emuCount;
+                          });
+                        }
                       },
                     ),
                     SizedBox(
                       width: SizeConfig.widthPercent * 5,
                     ),
                     HomeScreenMinusButton(
+                      isRunning: isRunning,
                       onPressed: () {
-                        setState(() {
-                          choosenEmuIndex =
-                              (choosenEmuIndex - 1 + 3) % emuCount;
-                        });
+                        if (isRunning) {
+                          setState(() {
+                            choosenEmuIndex =
+                                (choosenEmuIndex - 1 + 3) % emuCount;
+                          });
+                        }
                       },
                     ),
                     SizedBox(
@@ -128,9 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     HomeScreenRoundButton(
                       isPower: true,
+                      isRunning: isRunning,
                       onPressed: () {
                         setState(() {
                           isRunning = !isRunning;
+                          choosenEmuIndex = 0;
                         });
                       },
                     ),
@@ -139,21 +152,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     HomeScreenRoundButton(
                       isPower: false,
+                      isRunning: isRunning,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const SelectROMScreen();
-                            },
-                          ),
-                        );
+                        if (isRunning) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const SelectROMScreen();
+                              },
+                            ),
+                          );
+                        }
                       },
                     ),
                   ],
                 ),
               ),
-              foregroundPainter: HomeScreenControlsPainter(isForeground: true),
+              foregroundPainter: HomeScreenControlsPainter(
+                isForeground: true,
+                isRunning: isRunning,
+              ),
             ),
           ],
         ),

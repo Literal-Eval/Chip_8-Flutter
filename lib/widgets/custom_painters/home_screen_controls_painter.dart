@@ -1,12 +1,16 @@
+import 'dart:math';
+
 import 'package:chip_8_flutter/data/constants.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenControlsPainter extends CustomPainter {
   HomeScreenControlsPainter({
     required this.isForeground,
+    this.isRunning = false,
   });
 
-  final isForeground;
+  final bool isForeground;
+  final bool isRunning;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -38,18 +42,23 @@ class HomeScreenControlsPainter extends CustomPainter {
         paint..color = Colors.black,
       );
     } else {
-      paint.color = kBlueNeonColor;
-      canvas.drawPath(path, paint);
-      canvas.drawPath(
-        path,
-        paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
-      );
-      canvas.drawPath(path, fPaint);
+      if (!isRunning) {
+        paint.color = kBlueNeonColor;
+        canvas.drawPath(path, paint);
+      } else {
+        paint.color = kBlueNeonColor;
+        canvas.drawPath(path, paint);
+        canvas.drawPath(
+          path,
+          paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+        );
+        canvas.drawPath(path, fPaint);
+      }
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(covariant HomeScreenControlsPainter oldDelegate) {
+    return isRunning != oldDelegate.isRunning;
   }
 }

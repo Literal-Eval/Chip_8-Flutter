@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class HomeScreenMinusButton extends StatelessWidget {
   const HomeScreenMinusButton({
     required this.onPressed,
+    required this.isRunning,
     Key? key,
   }) : super(key: key);
 
   final Function() onPressed;
+  final bool isRunning;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class HomeScreenMinusButton extends StatelessWidget {
           SizeConfig.widthPercent * 12,
           SizeConfig.widthPercent * 12,
         ),
-        painter: MinusButtonPainter(),
+        painter: MinusButtonPainter(isRunning: isRunning),
       ),
     );
   }

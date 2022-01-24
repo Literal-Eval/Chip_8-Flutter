@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class HomeScreenDisplayPainter extends CustomPainter {
   HomeScreenDisplayPainter({
     required this.isBackground,
+    this.isRunning = false,
   });
 
   final bool isBackground;
+  final bool isRunning;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -52,11 +54,14 @@ class HomeScreenDisplayPainter extends CustomPainter {
 
     if (!isBackground) {
       canvas.drawPath(path, paint);
-      canvas.drawPath(
-        path,
-        paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
-      );
-      canvas.drawPath(path, fPaint);
+
+      if (isRunning) {
+        canvas.drawPath(
+          path,
+          paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+        );
+        canvas.drawPath(path, fPaint);
+      }
     }
   }
 

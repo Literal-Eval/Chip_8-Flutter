@@ -2,6 +2,12 @@ import 'package:chip_8_flutter/data/constants.dart';
 import 'package:flutter/material.dart';
 
 class MinusButtonPainter extends CustomPainter {
+  MinusButtonPainter({
+    required this.isRunning,
+  });
+
+  final bool isRunning;
+
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path();
@@ -30,11 +36,14 @@ class MinusButtonPainter extends CustomPainter {
     );
     paint.color = kBlueNeonColor;
     canvas.drawPath(path, paint);
-    canvas.drawPath(
-      path,
-      paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
-    );
-    canvas.drawPath(path, fPaint);
+
+    if (isRunning) {
+      canvas.drawPath(
+        path,
+        paint..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10),
+      );
+      canvas.drawPath(path, fPaint);
+    }
   }
 
   @override

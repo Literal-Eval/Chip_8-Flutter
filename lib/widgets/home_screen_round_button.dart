@@ -6,11 +6,13 @@ class HomeScreenRoundButton extends StatelessWidget {
   const HomeScreenRoundButton({
     required this.onPressed,
     required this.isPower,
+    this.isRunning = false,
     Key? key,
   }) : super(key: key);
 
   final Function() onPressed;
   final bool isPower;
+  final bool isRunning;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,10 @@ class HomeScreenRoundButton extends StatelessWidget {
           SizeConfig.widthPercent * 12,
           SizeConfig.widthPercent * 12,
         ),
-        painter: RoundButtonPainter(isPower: isPower),
+        painter: RoundButtonPainter(
+          isPower: isPower,
+          isRunning: isRunning,
+        ),
       ),
     );
   }
