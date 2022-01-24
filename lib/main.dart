@@ -1,9 +1,6 @@
 import 'package:chip_8_flutter/data/constants.dart';
-import 'package:chip_8_flutter/chip_8/models/display.dart';
 import 'package:chip_8_flutter/chip_8/models/speaker.dart';
-import 'package:chip_8_flutter/screens/select_rom.dart';
-import 'package:chip_8_flutter/utils/size_config.dart';
-import 'package:chip_8_flutter/widgets/menu_button.dart';
+import 'package:chip_8_flutter/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,7 +8,7 @@ void main() async {
   runApp(
     ProviderScope(
       child: MaterialApp(
-        home: const Chip(),
+        home: const HomeScreen(),
         theme: ThemeData.dark().copyWith(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: kSecondaryColor,
@@ -35,68 +32,4 @@ void main() async {
     ),
   );
   await Speaker.load();
-}
-
-class Chip extends StatefulWidget {
-  const Chip({Key? key}) : super(key: key);
-
-  @override
-  State<Chip> createState() => _ChipState();
-}
-
-class _ChipState extends State<Chip> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    SizeConfig.init(context);
-    ScreenBuffer.init();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: SizeConfig.widthPercent * 60,
-              height: SizeConfig.heightPercent * 10,
-              child: MenuButton(
-                text: 'CHIP-8',
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const SelectROMScreen();
-                  }));
-                },
-              ),
-            ),
-            SizedBox(
-              height: SizeConfig.heightPercent * 2,
-            ),
-            SizedBox(
-              width: SizeConfig.widthPercent * 60,
-              height: SizeConfig.heightPercent * 10,
-              child: MenuButton(
-                text: 'SCHIP-8',
-                onPressed: () {},
-              ),
-            ),
-            SizedBox(
-              height: SizeConfig.heightPercent * 2,
-            ),
-            SizedBox(
-              width: SizeConfig.widthPercent * 60,
-              height: SizeConfig.heightPercent * 10,
-              child: MenuButton(
-                text: 'NES',
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
