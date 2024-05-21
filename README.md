@@ -4,9 +4,11 @@ Does what the title says.
 # Features
 - CHIP 8 Emulator works fine
 
+<!---
 # ToDo(s)
 - [ ] Implement SCHIP instructions
 - [ ] Start NES
+-->
 
 # Screenshots
 ## Home (Power Off)
